@@ -8,7 +8,7 @@ import cors from "cors";
 
 const allowedOrigins = [
   "http://localhost:3000", // Local frontend during development
-  "https://6742d2517369db00081d70bc--dapper-tiramisu-b9829b.netlify.app/", // Netlify deployed frontend
+  "https://6742d2517369db00081d70bc--dapper-tiramisu-b9829b.netlify.app", // Netlify deployed frontend
 ];
 
 const app = express();
