@@ -6,11 +6,22 @@ import Lab5 from "./Lab5/index.js";
 import Kanbas from "./Kanbas/index.js";
 import cors from "cors";
 
+const allowedOrigins = [
+  "http://localhost:3000", // Local frontend during development
+  "https://6742bfc92fff00000865baa5--dapper-tiramisu-b9829b.netlify.app", // Netlify deployed frontend
+];
+
 const app = express();
 app.use(
   cors({
     credentials: true,
-    origin: process.env.NETLIFY_URL || "http://localhost:3000",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`Not allowed by CORS: ${origin}`));
+      }
+    },
   })
 );
 const sessionOptions = {
