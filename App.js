@@ -1,13 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
-import { config } from "dotenv";
+import "dotenv/config";
 import session from "express-session";
 import Hello from "./Hello.js";
 import Lab5 from "./Lab5/index.js";
 import Kanbas from "./Kanbas/index.js";
 import cors from "cors";
-
-config();
 
 const allowedOrigins = [
   "http://localhost:3000", // Local frontend during development
@@ -16,7 +14,13 @@ const allowedOrigins = [
 
 const CONNECTION_STRING =
   process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas";
-mongoose.connect(CONNECTION_STRING);
+mongoose
+  .connect(CONNECTION_STRING, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("Failed to connect to MongoDB", err));
 
 const app = express();
 app.use(
