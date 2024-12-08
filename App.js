@@ -10,7 +10,7 @@ import cors from "cors";
 const allowedOrigins = [
   "http://localhost:3000", // Local frontend during development
   "https://6742d2517369db00081d70bc--dapper-tiramisu-b9829b.netlify.app", // Netlify deployed frontend A5
-  "https://6755773dd002be00089c317e--dapper-tiramisu-b9829b.netlify.app", // A6
+  "https://67558632ef40580008ed88c4--dapper-tiramisu-b9829b.netlify.app/", // A6
 ];
 
 const CONNECTION_STRING =
