@@ -29,7 +29,7 @@ export async function enrollUserInCourse(user, course) {
 }
 
 export async function unenrollUserFromCourse(user, course) {
-  const result = await model.deleteOne({ user, course });
+  const result = await model.deleteMany({ user, course });
 
   if (result.deletedCount === 0) {
     throw new Error("Enrollment not found");
