@@ -95,18 +95,67 @@ export default function UserRoutes(app) {
   };
 
   const findCoursesForEnrolledUser = async (req, res) => {
-    let { userId } = req.params;
-    if (userId === "current") {
-      const currentUser = req.session["currentUser"];
-      if (!currentUser) {
-        res.sendStatus(401);
-        return;
-      }
-      userId = currentUser._id;
+    const currentUser = req.session["currentUser"];
+    if (!currentUser) {
+      res.sendStatus(401);
+      return;
     }
-    const courses = await courseDao.findCoursesForEnrolledUser(userId);
+    if (currentUser.role === "ADMIN") {
+      const courses = await courseDao.findAllCourses();
+      res.json(courses);
+      return;
+    }
+    let { uid } = req.params;
+    if (uid === "current") {
+      uid = currentUser._id;
+    }
+    const courses = await enrollmentsDao.findEnrollmentsForUser(uid);
     res.json(courses);
   };
+
+  // Enroll a user in a course
+  app.post("/api/users/:userId/courses/:courseId", async (req, res) => {
+    const { userId, courseId } = req.params;
+    if (userId === "current") {
+      const currentUser = req.session["currentUser"];
+      userId = currentUser._id;
+    }
+
+    try {
+      const status = await enrollmentsDao.enrollUserInCourse(userId, courseId);
+      res.send(status);
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Enrollment failed",
+        error: error.message,
+      });
+    }
+  });
+
+  //Unenroll user in course
+  app.delete("/api/users/:userId/courses/:courseId", async (req, res) => {
+    const { userId, courseId } = req.params;
+
+    if (userId === "current") {
+      const currentUser = req.session["currentUser"];
+      userId = currentUser._id;
+    }
+
+    try {
+      const status = await enrollmentsDao.unenrollUserFromCourse(
+        userId,
+        courseId
+      );
+      res.send(status);
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Unenrollment failed",
+        error: error.message,
+      });
+    }
+  });
 
   app.get("/api/users/:userId/courses", findCoursesForEnrolledUser);
   app.post("/api/users", createUser);

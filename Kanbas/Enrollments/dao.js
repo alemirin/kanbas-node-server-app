@@ -1,39 +1,37 @@
-import Database from "../Database/index.js";
+import model from "./model.js";
 
 export function findAllEnrollments() {
-  return Database.enrollments;
+  return model.find();
 }
 
-export function findEnrollmentsForUser(uId) {
-  const { enrollments } = Database;
-  const enrollmentList = enrollments.filter((e) => e.user === uId);
-  return enrollmentList;
+export async function findEnrollmentsForUser(uId) {
+  const enrollments = await model.find({ user: uId }).populate("course");
+  return enrollments.map((enrollment) => enrollment.course);
 }
 
-export function enrollUserInCourse(userId, courseId) {
-  const { enrollments } = Database;
+export async function findUsersForCourse(courseId) {
+  const enrollments = await model.find({ course: courseId }).populate("user");
+  return enrollments.map((enrollment) => enrollment.user);
+}
 
-  const enrollment = {
-    _id: Date.now().toString(),
-    user: userId,
-    course: courseId,
-  };
-  enrollments.push(enrollment);
+export async function enrollUserInCourse(user, course) {
+  // Check if the enrollment already exists
+  const existingEnrollment = await model.findOne({ user, course });
+  if (existingEnrollment) {
+    console.log("Enrollment already exists:", existingEnrollment);
+    return existingEnrollment;
+  }
+
+  // Create a new enrollment if it doesn't exist
+  const enrollment = await model.create({ user, course });
+  console.log("New enrollment created:", enrollment);
   return enrollment;
 }
 
-export function unenrollUserInCourse(userId, courseId) {
-  const { enrollments } = Database;
+export async function unenrollUserFromCourse(user, course) {
+  const result = await model.deleteOne({ user, course });
 
-  // Filter out the enrollment
-  const initialLength = enrollments.length;
-  Database.enrollments = enrollments.filter(
-    (enrollment) => enrollment.user !== userId && enrollment.course !== courseId
-  );
-
-  if (Database.enrollments.length === initialLength) {
+  if (result.deletedCount === 0) {
     throw new Error("Enrollment not found");
   }
-
-  return { userId, courseId };
 }
