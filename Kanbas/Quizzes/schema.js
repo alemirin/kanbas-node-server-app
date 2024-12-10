@@ -15,6 +15,11 @@ const schema = new mongoose.Schema(
       enum: ["ASSIGNMENTS", "EXAMS", "QUIZZES", "PROJECTS"],
       default: "QUIZZES",
     },
+    quizStatus: {
+      type: String,
+      enum: ["CLOSED", "AVAILABLE", "NOT AVAILABLE"],
+      default: "NOT AVAILABLE",
+    },
     shuffle: Boolean,
     isTimed: Boolean,
     time: Number,
