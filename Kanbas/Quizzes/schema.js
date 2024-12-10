@@ -1,18 +1,19 @@
 import mongoose from "mongoose";
 const schema = new mongoose.Schema(
   {
-    title: String,
+    _id: String,
+    title: { type: String, required: true },
     description: String,
     quiztype: {
       type: String,
       enum: ["GRADED", "PRACTICE", "GRADED SURVEY", "UNGRADED SURVEY"],
       default: "GRADED",
     },
-    points: Number,
+    points: { type: Number, default: 0 },
     course: { type: mongoose.Schema.Types.Mixed, ref: "CourseModel" },
     group: {
       type: String,
-      enum: ["ASSIGNMENTS", "EXAMS", "QUIZZES", "PROJECTS"],
+      enum: ["QUIZZES", "EXAMS", "ASSIGNMENTS", "PROJECTS"],
       default: "QUIZZES",
     },
     quizStatus: {
@@ -20,17 +21,17 @@ const schema = new mongoose.Schema(
       enum: ["CLOSED", "AVAILABLE", "NOT AVAILABLE"],
       default: "NOT AVAILABLE",
     },
-    shuffle: Boolean,
-    isTimed: Boolean,
-    time: Number,
-    hasMultipleAttempts: Boolean,
-    attempts: Number,
-    showCorrect: Boolean,
-    needsCode: Boolean,
-    accessCode: String,
-    oneAtATime: Boolean,
-    webcamRequired: Boolean,
-    lockQuestions: Boolean,
+    shuffle: { type: Boolean, default: true },
+    isTimed: { type: Boolean, default: true },
+    time: { type: Number, default: 20 },
+    hasMultipleAttempts: { type: Boolean, default: false },
+    attempts: { type: Number },
+    showCorrect: { type: Boolean, default: true },
+    needsCode: { type: Boolean, default: false },
+    accessCode: { type: String },
+    oneAtATime: { type: Boolean, default: true },
+    webcamRequired: { type: Boolean, default: false },
+    lockQuestions: { type: Boolean, default: false },
     assignTo: {
       type: String,
       enum: ["EVERYONE", "STUDENTS", "SECTION"],
@@ -41,6 +42,6 @@ const schema = new mongoose.Schema(
     availUntil: String,
     questions: { type: mongoose.Schema.Types.ObjectId, ref: "QuestionModel" },
   },
-  { collection: "quizzes" }
+  { collection: "quizzes", _id: false }
 );
 export default schema;
