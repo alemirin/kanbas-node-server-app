@@ -41,6 +41,7 @@ const schema = new mongoose.Schema(
     availFrom: String,
     availUntil: String,
     questions: { type: mongoose.Schema.Types.ObjectId, ref: "QuestionModel" },
+    isPublished: Boolean,
   },
   { collection: "quizzes", _id: false }
 );
