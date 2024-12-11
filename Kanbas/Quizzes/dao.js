@@ -27,7 +27,7 @@ export const updateQuiz = (quizId, quizUpdates) => {
   const sanitizedUpdates = Object.fromEntries(
     Object.entries(quizUpdates).filter(([_, v]) => v !== undefined)
   );
-  
+
   return model.findByIdAndUpdate(
     quizId,
     { $set: sanitizedUpdates },
@@ -48,7 +48,7 @@ export const findAvailableQuizzes = (courseId) => {
     course: courseId,
     quizStatus: "AVAILABLE",
     availFrom: { $lte: new Date() },
-    availUntil: { $gte: new Date() }
+    availUntil: { $gte: new Date() },
   });
 };
 
@@ -58,4 +58,11 @@ export const updateQuizStatus = (quizId, status) => {
     { $set: { quizStatus: status } },
     { new: true }
   );
+};
+
+export const findQuizzesByTitle = (title, courseId) => {
+  const regex = new RegExp(title, "i"); // 'i' makes it case-insensitive
+  return model.find({
+    $or: [{ title: { $regex: regex }, course: courseId }],
+  });
 };

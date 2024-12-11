@@ -8,6 +8,12 @@ export default function QuizRoutes(app) {
 
   app.get("/api/quizzes/:cid", async (req, res) => {
     const { cid } = req.params;
+    const { title } = req.query;
+    if (title) {
+      const quizzes = await dao.findQuizzesByTitle(title, cid);
+      res.json(quizzes);
+      return;
+    }
     const quizzes = await dao.findQuizzesForCourse(cid);
     res.json(quizzes);
   });
