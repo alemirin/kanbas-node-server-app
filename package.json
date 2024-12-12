@@ -15,6 +15,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "express-session": "^1.18.1",
+    "kanbas-node-server-app-2024": "file:",
     "mongoose": "^8.8.3"
   },
   "devDependencies": {
