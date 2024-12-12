@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const schema = new mongoose.Schema(
   {
-    quiz: { type: mongoose.Schema.Types.ObjectId, ref: "QuizModel" },
+    quiz: String,
     title: String,
     questiontype: {
       type: String,

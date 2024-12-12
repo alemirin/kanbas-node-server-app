@@ -4,18 +4,17 @@ export function deleteQuestion(questionId) {
   return model.deleteOne({ _id: questionId });
 }
 
-export function createQuestion(question) {
-  return model.create(question);
+export function createQuestion(qid, question) {
+  return model.create({ ...question, quiz: qid });
 }
 
-export function findQuestionsForQuiz(quizId) {
-  return model.find({ quiz: quizId });
+export function findQuestionsForQuiz(questionId) {
+  return model.find({ quiz: questionId });
 }
 
-export function findQuestionById(quizId) {
-  return model.findById(quizId);
-}
-
-export function updateQuestion(questionId, questionUpdates) {
-  return model.updateOne({ _id: questionId }, questionUpdates);
+export function updateQuestion(qid, questionId, questionUpdates) {
+  return model.updateOne(
+    { _id: questionId },
+    { ...questionUpdates, quiz: qid }
+  );
 }

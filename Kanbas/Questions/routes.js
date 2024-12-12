@@ -12,17 +12,6 @@ export default function QuestionRoutes(app) {
     }
   });
 
-  // Get a specific question by ID
-  app.get("/api/quizzes/:qid/questions/:questionId", async (req, res) => {
-    const { qid, questionId } = req.params;
-    try {
-      const question = await dao.findQuestionById(qid, questionId);
-      res.json(question);
-    } catch (error) {
-      res.status(400).json({ message: error.message });
-    }
-  });
-
   // Create a new question for a quiz
   app.post("/api/quizzes/:qid/questions", async (req, res) => {
     const { qid } = req.params;
@@ -51,7 +40,7 @@ export default function QuestionRoutes(app) {
   app.delete("/api/quizzes/:qid/questions/:questionId", async (req, res) => {
     const { qid, questionId } = req.params;
     try {
-      const status = await dao.deleteQuestion(qid, questionId);
+      const status = await dao.deleteQuestion(questionId);
       res.json(status);
     } catch (error) {
       res.status(400).json({ message: error.message });
