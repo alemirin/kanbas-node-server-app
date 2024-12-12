@@ -12,6 +12,10 @@ export function findQuestionsForQuiz(quizId) {
   return model.find({ quiz: quizId });
 }
 
+export function findQuestionById(quizId) {
+  return model.findById(quizId);
+}
+
 export function updateQuestion(questionId, questionUpdates) {
   return model.updateOne({ _id: questionId }, questionUpdates);
 }
