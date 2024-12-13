@@ -6,6 +6,12 @@ const answerSchema = new mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.Mixed, // Allows either a string or ObjectId
       default: () => new mongoose.Types.ObjectId(), // Generate ObjectId if not provided
+      required: true
+    },
+    attemptNumber: {
+      type: Number,
+      required: true,
+      default: 1
     },
     answers: [
       {
@@ -24,27 +30,24 @@ const answerSchema = new mongoose.Schema(
           required: true,
         },
         providedAnswer: {
-          type: mongoose.Schema.Types.Mixed, // Can store a string, boolean, or array, depending on the question type
+          type: mongoose.Schema.Types.Mixed,
           required: true,
         },
         isCorrect: {
           type: Boolean,
           required: true,
-        },
-        // Additional fields for specific question types
-        choices: [
-          {
-            text: String,
-            isCorrect: Boolean,
-          },
-        ],
-        possibleAnswers: [String],
-      },
+        }
+      }
     ],
+    score: {
+      type: Number,
+      required: true,
+      default: 0
+    },
     submittedAt: {
       type: Date,
       default: Date.now,
-    },
+    }
   },
   { collection: "quizAnswers" }
 );
