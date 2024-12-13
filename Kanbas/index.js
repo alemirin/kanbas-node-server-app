@@ -5,6 +5,7 @@ import EnrollmentRoutes from "./Enrollments/routes.js";
 import AssignmentRoutes from "./Assignments/routes.js";
 import QuizRoutes from "./Quizzes/routes.js";
 import QuestionRoutes from "./Questions/routes.js";
+import AnswerRoutes from "./Answers/routes.js";
 
 export default function Kanbas(app) {
   UserRoutes(app);
@@ -14,4 +15,5 @@ export default function Kanbas(app) {
   AssignmentRoutes(app);
   QuizRoutes(app);
   QuestionRoutes(app);
+  AnswerRoutes(app);
 }
