@@ -12,6 +12,7 @@ const allowedOrigins = [
   "https://6742d2517369db00081d70bc--dapper-tiramisu-b9829b.netlify.app", // Netlify deployed frontend A5
   "https://67558632ef40580008ed88c4--dapper-tiramisu-b9829b.netlify.app", // A6
   "https://dapper-tiramisu-b9829b.netlify.app",
+  "https://final--dapper-tiramisu-b9829b.netlify.app",
 ];
 
 const CONNECTION_STRING =
