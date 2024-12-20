@@ -5,7 +5,14 @@ export function findAllEnrollments() {
 }
 
 export async function findEnrollmentsForUser(uId) {
-  const enrollments = await model.find({ user: uId }).populate("course");
+  const enrollments = await model
+    .find({
+      $or: [
+        { user: uId }, // Case 1: user is a string
+        { "user._id": uId }, // Case 2: user is an object with _id
+      ],
+    })
+    .populate("course");
   return enrollments.map((enrollment) => enrollment.course);
 }
 
@@ -16,7 +23,12 @@ export async function findUsersForCourse(courseId) {
 
 export async function enrollUserInCourse(user, course) {
   // Check if the enrollment already exists
-  const existingEnrollment = await model.findOne({ user, course });
+  const existingEnrollment = await model.findOne({
+    $or: [
+      { user, course },
+      { "user._id": user, course },
+    ],
+  });
   if (existingEnrollment) {
     console.log("Enrollment already exists:", existingEnrollment);
     return existingEnrollment;
@@ -29,7 +41,12 @@ export async function enrollUserInCourse(user, course) {
 }
 
 export async function unenrollUserFromCourse(user, course) {
-  const result = await model.deleteMany({ user, course });
+  const result = await model.deleteMany({
+    $or: [
+      { user, course },
+      { "user._id": user, course },
+    ],
+  });
 
   if (result.deletedCount === 0) {
     throw new Error("Enrollment not found");

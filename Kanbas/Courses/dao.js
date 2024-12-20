@@ -11,6 +11,7 @@ export function createCourse(course) {
 }
 
 export function deleteCourse(courseId) {
+  console.log("Deleting course with ID:", courseId);
   return model.deleteOne({ _id: courseId });
 }
 
