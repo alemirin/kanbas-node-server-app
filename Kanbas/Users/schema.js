@@ -10,11 +10,17 @@ const userSchema = new mongoose.Schema(
     firstName: String,
     email: String,
     lastName: String,
-    dob: Date,
+    dob: {
+      type: Date,
+      validate: {
+        validator: (value) => value < new Date(),
+        message: "Date of birth must be in the past.",
+      },
+    },
     role: {
       type: String,
       enum: ["STUDENT", "FACULTY", "ADMIN", "USER"],
-      default: "USER",
+      default: "STUDENT",
     },
     loginId: String,
     section: String,
