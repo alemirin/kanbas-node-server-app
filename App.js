@@ -1,4 +1,5 @@
 import express from "express";
+import mongoose from "mongoose";
 import "dotenv/config";
 import session from "express-session";
 import Hello from "./Hello.js";
@@ -8,8 +9,21 @@ import cors from "cors";
 
 const allowedOrigins = [
   "http://localhost:3000", // Local frontend during development
-  "https://6742d2517369db00081d70bc--dapper-tiramisu-b9829b.netlify.app", // Netlify deployed frontend
+  "https://6742d2517369db00081d70bc--dapper-tiramisu-b9829b.netlify.app", // Netlify deployed frontend A5
+  "https://67558632ef40580008ed88c4--dapper-tiramisu-b9829b.netlify.app", // A6
+  "https://dapper-tiramisu-b9829b.netlify.app",
+  "https://final--dapper-tiramisu-b9829b.netlify.app",
 ];
+
+const CONNECTION_STRING =
+  process.env.MONGO_CONNECTION_STRING || "mongodb://127.0.0.1:27017/kanbas";
+mongoose
+  .connect(CONNECTION_STRING, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("Failed to connect to MongoDB", err));
 
 const app = express();
 app.use(
