@@ -107,11 +107,11 @@ export default function UserRoutes(app) {
       res.json(courses);
       return;
     }
-    let { uid } = req.params;
-    if (uid === "current") {
-      uid = currentUser._id;
+    let { userId } = req.params;
+    if (userId === "current") {
+      userId = currentUser._id;
     }
-    const courses = await enrollmentsDao.findEnrollmentsForUser(uid);
+    const courses = await enrollmentsDao.findEnrollmentsForUser(userId);
     res.json(courses);
   };
 
